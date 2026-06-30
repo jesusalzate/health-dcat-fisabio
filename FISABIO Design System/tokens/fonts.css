@@ -1,0 +1,18 @@
+/* FISABIO — Font faces
+   Brand fonts per the Manual d'Identitat Corporativa:
+   - Larsseit  → corporate/display typeface (used in the logotype & headings)
+   - Roboto    → free-use text typeface (body, stationery, captions)
+   Larsseit is a commercial typeface and is NOT shipped here. It is substituted
+   with Figtree (Google Fonts) — the closest free geometric-humanist grotesque
+   (double-story a, single-story g, even strokes, round bowls). Swap the
+   @font-face / --font-display value if licensed Larsseit binaries are provided. */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* Larsseit substitute */
+  --font-display: 'Figtree', 'Larsseit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Roboto — brand text face (free use) */
+  --font-body: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}

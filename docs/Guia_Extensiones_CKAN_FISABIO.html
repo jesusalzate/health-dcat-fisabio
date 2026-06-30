@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Extensiones - Portal CKAN FISABIO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: #f8f9fa; color: #333; }
+        .sidebar { background-color: #003E7E; position: fixed; top: 0; left: 0; bottom: 0; width: 240px; overflow-y: auto; padding-top: 2rem; color: white; z-index: 100; }
+        .sidebar a { color: rgba(255,255,255,0.8); text-decoration: none; display: block; padding: 10px 20px; font-weight: 500; }
+        .sidebar a:hover { color: white; background-color: rgba(255,255,255,0.1); border-left: 4px solid #fff; }
+        .sidebar .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); padding: 12px 20px 4px; margin-top: 8px; }
+        .content-area { margin-left: 240px; padding: 3rem; background-color: white; min-height: 100vh; box-shadow: -5px 0 15px rgba(0,0,0,0.05); }
+        h1, h2, h3 { color: #003E7E; font-weight: 700; margin-top: 2rem; }
+        h1 { border-bottom: 3px solid #003E7E; padding-bottom: 10px; margin-bottom: 30px; }
+        h2 { border-left: 5px solid #E8500A; padding-left: 1rem; margin-bottom: 1.25rem; }
+        .code-block { background-color: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; overflow-x: auto; margin: 15px 0; font-family: 'Consolas', monospace; font-size: 0.88rem; white-space: pre-wrap; line-height: 1.6; }
+        .alert-info { background-color: rgba(0, 62, 126, 0.05); border-left: 5px solid #003E7E; color: #003E7E; }
+        .alert-warning { background-color: rgba(255, 193, 7, 0.1); border-left: 5px solid #ffc107; }
+        .alert-success { background-color: rgba(25, 135, 84, 0.07); border-left: 5px solid #198754; }
+        .step-badge { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: #003E7E; color: white; border-radius: 50%; font-weight: 700; font-size: 1rem; margin-right: 0.75rem; flex-shrink: 0; }
+        .step-header { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .plugin-tag { display: inline-block; background-color: #003E7E; color: white; font-family: 'Consolas', monospace; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px; margin: 2px; }
+        .feature-card { border: none; border-top: 4px solid #E8500A; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: transform 0.2s; }
+        .feature-card:hover { transform: translateY(-3px); }
+        .toc-link { font-size: 0.85rem; }
+        .sub-link { padding-left: 36px !important; font-size: 0.82rem; color: rgba(255,255,255,0.65) !important; }
+        .badge-ext { background-color: #E8500A; color: white; font-size: 0.75rem; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar d-none d-md-block">
+            <h5 class="px-3 mb-1 fw-bold" style="color: white;">FISABIO CKAN</h5>
+            <p class="px-3 mb-4" style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Guía de Extensiones</p>
+
+            <div class="section-label">Contenido</div>
+            <a href="#intro" class="toc-link"><i class="fas fa-info-circle me-2"></i>Introducción</a>
+            <a href="#resumen-plugins" class="toc-link"><i class="fas fa-th-list me-2"></i>Plugins instalados</a>
+
+            <div class="section-label">Instalación</div>
+            <a href="#paso1" class="toc-link"><i class="fas fa-folder-open me-2"></i>1. Tema personalizado</a>
+            <a href="#paso2" class="toc-link"><i class="fas fa-exchange-alt me-2"></i>2. DCAT</a>
+            <a href="#paso3" class="toc-link"><i class="fas fa-table me-2"></i>3. Scheming</a>
+            <a href="#paso4" class="toc-link"><i class="fas fa-sync-alt me-2"></i>4. Harvester</a>
+
+            <div class="section-label">Configuración</div>
+            <a href="#config" class="toc-link"><i class="fas fa-cogs me-2"></i>ckan.ini</a>
+            <a href="#config-plugins" class="sub-link"><i class="fas fa-minus me-2"></i>Lista de plugins</a>
+            <a href="#config-bbdd" class="sub-link"><i class="fas fa-minus me-2"></i>Bases de datos</a>
+            <a href="#config-correo" class="sub-link"><i class="fas fa-minus me-2"></i>Correo SMTP</a>
+            <a href="#config-dcat" class="sub-link"><i class="fas fa-minus me-2"></i>DCAT / Scheming</a>
+
+            <div class="section-label">Funcionalidades</div>
+            <a href="#funcionalidades" class="toc-link"><i class="fas fa-star me-2"></i>Qué aporta cada extensión</a>
+            <a href="#assets" class="toc-link"><i class="fas fa-images me-2"></i>Recursos visuales</a>
+        </nav>
+
+        <!-- Content -->
+        <main class="content-area">
+
+            <!-- INTRO -->
+            <section id="intro">
+                <h1><i class="fas fa-plug me-3" style="color: #E8500A;"></i>Guía de Extensiones del Portal CKAN</h1>
+
+                <p class="lead">Esta guía describe las extensiones y complementos que deben instalarse sobre una instancia de <strong>CKAN 2.11</strong> ya operativa para replicar la funcionalidad completa del portal <strong>GVA PharmaTrace Hub</strong> de FISABIO.</p>
+
+                <div class="alert alert-info shadow-sm">
+                    <strong><i class="fas fa-check-circle me-2"></i>Punto de partida:</strong> Se asume que CKAN 2.11 está correctamente instalado con sus servicios de soporte (PostgreSQL, Redis y Solr) funcionando. El entorno virtual de Python se encuentra en <code>/usr/lib/ckan/default</code> y el archivo de configuración en <code>/etc/ckan/default/ckan.ini</code>.
+                </div>
+
+                <p>La arquitectura añadida se compone de <strong>cuatro bloques</strong>:</p>
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card text-center p-3 h-100 border-0 bg-light">
+                            <div style="font-size: 2rem; color: #003E7E;"><i class="fas fa-paint-brush"></i></div>
+                            <h6 class="mt-2 mb-1">Tema FISABIO</h6>
+                            <small class="text-muted">Identidad visual y páginas institucionales</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card text-center p-3 h-100 border-0 bg-light">
+                            <div style="font-size: 2rem; color: #003E7E;"><i class="fas fa-exchange-alt"></i></div>
+                            <h6 class="mt-2 mb-1">DCAT</h6>
+                            <small class="text-muted">Interoperabilidad con estándares europeos de salud</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card text-center p-3 h-100 border-0 bg-light">
+                            <div style="font-size: 2rem; color: #003E7E;"><i class="fas fa-table"></i></div>
+                            <h6 class="mt-2 mb-1">Scheming</h6>
+                            <small class="text-muted">Formularios de metadatos adaptados al EHDS</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card text-center p-3 h-100 border-0 bg-light">
+                            <div style="font-size: 2rem; color: #003E7E;"><i class="fas fa-sync-alt"></i></div>
+                            <h6 class="mt-2 mb-1">Harvester</h6>
+                            <small class="text-muted">Importación automática de catálogos externos</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RESUMEN PLUGINS -->
+            <section id="resumen-plugins" class="mt-5">
+                <h2>Plugins que quedarán activos</h2>
+                <p>Tras completar esta guía, la directiva <code>ckan.plugins</code> del portal contendrá los siguientes identificadores (en el orden recomendado):</p>
+                <div class="code-block">harvest ckan_harvester dcat_rdf_harvester image_view text_view datatables_view datastore fisabio_theme dcat dcat_json_interface structured_data scheming_datasets</div>
+                <p>A continuación se describe el origen y función de cada uno:</p>
+                <table class="table table-bordered table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Plugin</th>
+                            <th>Extensión</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="plugin-tag">harvest</span> <span class="plugin-tag">ckan_harvester</span> <span class="plugin-tag">dcat_rdf_harvester</span></td>
+                            <td><span class="badge-ext">ckanext-harvest</span></td>
+                            <td>Importación periódica de catálogos remotos en formatos RDF/TTL. Incluye soporte DCAT nativo.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="plugin-tag">image_view</span> <span class="plugin-tag">text_view</span> <span class="plugin-tag">datatables_view</span></td>
+                            <td>CKAN core</td>
+                            <td>Visualizadores nativos de recursos: imágenes, texto plano y tablas interactivas.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="plugin-tag">datastore</span></td>
+                            <td>CKAN core</td>
+                            <td>Motor de datos estructurados que permite consultar recursos CSV mediante API.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="plugin-tag">fisabio_theme</span></td>
+                            <td><span class="badge-ext">ckanext-fisabio</span></td>
+                            <td>Tema visual de FISABIO, páginas institucionales y sistema de solicitud de acceso a datos restringidos.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="plugin-tag">dcat</span> <span class="plugin-tag">dcat_json_interface</span> <span class="plugin-tag">structured_data</span></td>
+                            <td><span class="badge-ext">ckanext-dcat</span></td>
+                            <td>Serialización del catálogo en RDF semántico (HealthDCAT-AP) para interoperabilidad con el Espacio Europeo de Datos de Salud.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="plugin-tag">scheming_datasets</span></td>
+                            <td><span class="badge-ext">ckanext-scheming</span></td>
+                            <td>Formularios de creación de datasets basados en el esquema de metadatos HealthDCAT-AP.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- PASO 1 -->
+            <section id="paso1" class="mt-5">
+                <h2><span class="badge-ext me-2">Paso 1</span> Instalación del tema personalizado (<code>ckanext-fisabio</code>)</h2>
+
+                <p>El tema de FISABIO es una extensión desarrollada a medida que encapsula la identidad visual del portal y varias funcionalidades propias. Debe instalarse en el entorno virtual de CKAN a partir de la carpeta de código fuente proporcionada.</p>
+
+                <div class="alert alert-warning shadow-sm">
+                    <strong><i class="fas fa-folder-upload me-2"></i>Requisito previo:</strong> Copiar la carpeta <code>ckanext-fisabio</code> al servidor. La ruta recomendada es <code>/usr/lib/ckan/default/src/ckanext-fisabio</code>.
+                </div>
+
+                <div class="step-header mt-3">
+                    <span class="step-badge">1</span>
+                    <strong>Activar el entorno virtual e instalar el tema</strong>
+                </div>
+                <div class="code-block">source /usr/lib/ckan/default/bin/activate
+cd /usr/lib/ckan/default/src/ckanext-fisabio
+pip install -e .</div>
+
+                <div class="step-header mt-3">
+                    <span class="step-badge">2</span>
+                    <strong>Verificar que el plugin es reconocido por CKAN</strong>
+                </div>
+                <div class="code-block">ckan -c /etc/ckan/default/ckan.ini plugin list</div>
+                <p>La salida debe incluir <code>fisabio_theme</code> en la lista de plugins disponibles.</p>
+
+                <div class="alert alert-success shadow-sm mt-3">
+                    <strong><i class="fas fa-check me-2"></i>Qué instala este paso:</strong> Las páginas <code>/proyecto</code>, <code>/socios</code> y <code>/resultados</code>, el formulario de solicitud de acceso en <code>/solicitar-acceso</code>, el CSS de marca FISABIO y todas las sobreescrituras de plantillas del portal.
+                </div>
+            </section>
+
+            <!-- PASO 2 -->
+            <section id="paso2" class="mt-5">
+                <h2><span class="badge-ext me-2">Paso 2</span> Instalación de DCAT (<code>ckanext-dcat</code>)</h2>
+
+                <p><strong>ckanext-dcat</strong> es la extensión oficial de la comunidad CKAN para la publicación de catálogos de datos en formatos semánticos estándar (RDF, Turtle, JSON-LD). En este portal se utiliza específicamente con el perfil <strong>HealthDCAT-AP</strong>, que es el perfil europeo de metadatos para el sector sanitario definido en el marco del <em>European Health Data Space</em> (EHDS).</p>
+
+                <div class="code-block">source /usr/lib/ckan/default/bin/activate
+
+pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat
+pip install -r /usr/lib/ckan/default/src/ckanext-dcat/requirements.txt</div>
+
+                <div class="alert alert-info shadow-sm mt-3">
+                    <strong><i class="fas fa-info-circle me-2"></i>Nota:</strong> Si el servidor no tiene acceso a Internet en el momento de la instalación, puede descargarse el repositorio de <code>ckanext-dcat</code> por separado y subirse al servidor para instalarlo con <code>pip install -e /ruta/local</code>.
+                </div>
+            </section>
+
+            <!-- PASO 3 -->
+            <section id="paso3" class="mt-5">
+                <h2><span class="badge-ext me-2">Paso 3</span> Instalación de Scheming (<code>ckanext-scheming</code>)</h2>
+
+                <p><strong>ckanext-scheming</strong> permite definir los campos del formulario de creación y edición de datasets mediante un fichero YAML de esquema, en lugar de usar los campos genéricos que CKAN trae por defecto. Se utiliza para cargar automáticamente el esquema de metadatos <strong>HealthDCAT-AP</strong> incluido en la propia extensión DCAT.</p>
+
+                <div class="code-block">pip install -e git+https://github.com/ckan/ckanext-scheming.git#egg=ckanext-scheming
+pip install -r /usr/lib/ckan/default/src/ckanext-scheming/requirements.txt</div>
+            </section>
+
+            <!-- PASO 4 -->
+            <section id="paso4" class="mt-5">
+                <h2><span class="badge-ext me-2">Paso 4</span> Instalación del Harvester (<code>ckanext-harvest</code>)</h2>
+
+                <p><strong>ckanext-harvest</strong> habilita la funcionalidad de cosecha (<em>harvesting</em>) del portal: permite importar catálogos de datos desde fuentes externas de forma programada. El portal FISABIO lo utiliza junto al módulo <code>dcat_rdf_harvester</code> para poder ingerir ficheros en formato Turtle (TTL) y RDF publicados por otros sistemas sanitarios.</p>
+
+                <div class="code-block">pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest
+pip install -r /usr/lib/ckan/default/src/ckanext-harvest/pip-requirements.txt</div>
+
+                <div class="step-header mt-4">
+                    <span class="step-badge"><i class="fas fa-database" style="font-size: 0.9rem;"></i></span>
+                    <strong>Inicializar las tablas de base de datos del Harvester</strong>
+                </div>
+                <p>Después de instalar la extensión, hay que crear las tablas que el harvester necesita en la base de datos de CKAN:</p>
+                <div class="code-block">ckan -c /etc/ckan/default/ckan.ini harvester initdb</div>
+
+                <div class="alert alert-warning shadow-sm mt-3">
+                    <strong><i class="fas fa-clock me-2"></i>Proceso en segundo plano:</strong> El harvester requiere un proceso de trabajo (<em>worker</em>) corriendo en segundo plano. Consulte el apartado de configuración más abajo para ver cómo iniciar este proceso con <code>systemd</code>.
+                </div>
+            </section>
+
+            <!-- CONFIG -->
+            <section id="config" class="mt-5">
+                <h2><i class="fas fa-file-alt me-2"></i>Configuración del archivo <code>ckan.ini</code></h2>
+
+                <p>Una vez instaladas todas las extensiones, es necesario actualizar el archivo de configuración principal de CKAN para activar los plugins y ajustar los parámetros de cada uno. El archivo se encuentra habitualmente en <code>/etc/ckan/default/ckan.ini</code>.</p>
+
+                <div class="alert alert-warning shadow-sm">
+                    <strong><i class="fas fa-exclamation-triangle me-2"></i>Antes de editar:</strong> Realice una copia de seguridad del archivo original antes de modificarlo.
+                    <div class="code-block" style="margin-top: 0.75rem; margin-bottom: 0;">cp /etc/ckan/default/ckan.ini /etc/ckan/default/ckan.ini.bak</div>
+                </div>
+
+                <h3 id="config-plugins" class="mt-4">Lista de plugins activos</h3>
+                <p>Localice (o añada) la línea <code>ckan.plugins</code> dentro del bloque <code>[app:main]</code> y establezca exactamente el siguiente valor:</p>
+                <div class="code-block">ckan.plugins = harvest ckan_harvester dcat_rdf_harvester image_view text_view datatables_view datastore fisabio_theme dcat dcat_json_interface structured_data scheming_datasets</div>
+
+                <h3 id="config-bbdd" class="mt-4">Conexión a bases de datos</h3>
+                <p>Ajuste los valores de conexión a PostgreSQL según las credenciales de su servidor:</p>
+                <div class="code-block" style="background-color: #2b2b2b; color: #a9b7c6; border-left: 5px solid #003E7E; font-size: 0.85rem;"><span style="color: #808080;"># Base de datos principal de CKAN</span>
+sqlalchemy.url = <span style="color: #a5c261;">postgresql://ckan:CONTRASEÑA_CKAN@localhost/ckandb</span>
+
+<span style="color: #808080;"># DataStore (lectura/escritura y solo lectura)</span>
+ckan.datastore.write_url = <span style="color: #a5c261;">postgresql://ckan:CONTRASEÑA_CKAN@localhost/datastore</span>
+ckan.datastore.read_url = <span style="color: #a5c261;">postgresql://datastore_ro:CONTRASEÑA_RO@localhost/datastore</span>
+
+<span style="color: #808080;"># Solr y Redis</span>
+solr_url = <span style="color: #a5c261;">http://localhost:8983/solr/ckan</span>
+ckan.redis.url = <span style="color: #a5c261;">redis://localhost:6379/1</span></div>
+
+                <h3 id="config-correo" class="mt-4">Servidor de correo (SMTP)</h3>
+                <p>El formulario de solicitud de acceso del portal envía notificaciones por correo electrónico al administrador. Es necesario configurar un servidor SMTP válido:</p>
+                <div class="code-block" style="background-color: #2b2b2b; color: #a9b7c6; border-left: 5px solid #003E7E; font-size: 0.85rem;"><span style="color: #808080;"># Configuración de correo saliente</span>
+smtp.server = <span style="color: #a5c261;">smtp.gmail.com:587</span>
+smtp.starttls = <span style="color: #cc7832;">True</span>
+smtp.user = <span style="color: #a5c261;">correo_admin@su-dominio.es</span>
+smtp.password = <span style="color: #a5c261;">CONTRASEÑA_DE_APLICACION</span>
+smtp.mail_from = <span style="color: #a5c261;">correo_admin@su-dominio.es</span>
+
+<span style="color: #808080;"># Dirección a la que se envían las solicitudes de acceso</span>
+email_to = <span style="color: #a5c261;">administrador@su-dominio.es</span></div>
+
+                <div class="alert alert-info shadow-sm mt-2">
+                    <strong><i class="fas fa-shield-alt me-2"></i>Recomendación de seguridad:</strong> Si usa Gmail, genere una <em>Contraseña de aplicación</em> desde la configuración de seguridad de la cuenta de Google (requiere verificación en dos pasos activa). No use la contraseña principal de la cuenta.
+                </div>
+
+                <h3 id="config-dcat" class="mt-4">Perfil HealthDCAT-AP y esquema de metadatos</h3>
+                <p>Estas directivas activan el perfil europeo de salud para la serialización RDF del catálogo y cargan el esquema de campos del formulario de creación de datasets:</p>
+                <div class="code-block" style="background-color: #2b2b2b; color: #a9b7c6; border-left: 5px solid #003E7E; font-size: 0.85rem;"><span style="color: #808080;"># Cola de trabajo del Harvester (requiere Redis)</span>
+ckan.harvest.mq.type = <span style="color: #a5c261;">redis</span>
+ckan.harvest.mq.hostname = <span style="color: #a5c261;">localhost</span>
+ckan.harvest.mq.port = <span style="color: #6897bb;">6379</span>
+ckan.harvest.mq.redis_db = <span style="color: #6897bb;">0</span>
+
+<span style="color: #808080;"># Perfil RDF activo: European Health Data Space</span>
+ckanext.dcat.rdf.profiles = <span style="color: #a5c261;">euro_health_dcat_ap</span>
+
+<span style="color: #808080;"># Esquema de metadatos HealthDCAT-AP para el formulario de datasets</span>
+scheming.dataset_schemas = <span style="color: #a5c261;">ckanext.dcat.schemas:health_dcat_ap.yaml</span>
+scheming.presets = <span style="color: #a5c261;">ckanext.scheming:presets.json ckanext.dcat.schemas:presets.yaml</span></div>
+
+                <h3 class="mt-4">Reiniciar el servidor tras los cambios</h3>
+                <p>Después de guardar el archivo <code>ckan.ini</code>, reinicie el proceso de CKAN para que los cambios surtan efecto:</p>
+                <div class="code-block">sudo systemctl restart ckan
+# O, si usa Supervisor:
+sudo supervisorctl restart ckan-uwsgi</div>
+            </section>
+
+            <!-- FUNCIONALIDADES -->
+            <section id="funcionalidades" class="mt-5">
+                <h2>Funcionalidades incluidas en cada extensión</h2>
+                <p>A continuación se describe de forma práctica qué aporta cada componente una vez configurado el portal.</p>
+
+                <div class="row g-4 mt-2">
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-paint-brush me-2" style="color: #E8500A;"></i>Identidad visual FISABIO</h5>
+                                <p class="card-text text-muted">El tema aplica la paleta corporativa (azul marino <code>#003E7E</code> y naranja <code>#E8500A</code>), tipografías y componentes de interfaz adaptados a la imagen de FISABIO y la GVA, incluyendo cabecera, pie de página y menú de navegación.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-file-alt me-2" style="color: #E8500A;"></i>Páginas institucionales integradas</h5>
+                                <p class="card-text text-muted">Las rutas <code>/proyecto</code>, <code>/socios</code> y <code>/resultados</code> son páginas nativas del portal (no externas) que heredan el mismo diseño que el resto de secciones, facilitando el mantenimiento y garantizando coherencia visual.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-lock me-2" style="color: #E8500A;"></i>Acceso bajo demanda a datasets restringidos</h5>
+                                <p class="card-text text-muted">Cuando un dataset se marca como restringido (campo <code>access_rights = RESTRICTED</code> o campo extra <code>acceso_bajo_demanda = true</code>), el portal muestra automáticamente un botón de solicitud en la página del dataset. El usuario rellena un formulario y el administrador recibe un correo estructurado con los datos de la solicitud, sin necesidad de que el usuario esté registrado.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-heartbeat me-2" style="color: #E8500A;"></i>Espacio Europeo de Datos de Salud (EHDS)</h5>
+                                <p class="card-text text-muted">El catálogo de datos se publica automáticamente en formato RDF siguiendo el perfil <strong>HealthDCAT-AP</strong>. Cualquier plataforma europea del sector sanitario puede consumir el catálogo completo mediante los endpoints <code>/catalog.rdf</code>, <code>/catalog.ttl</code> y <code>/catalog.jsonld</code>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-wpforms me-2" style="color: #E8500A;"></i>Formulario de metadatos extendido</h5>
+                                <p class="card-text text-muted">El formulario de creación y edición de datasets incluye todos los campos específicos de HealthDCAT-AP (tipo de dato de salud, nivel de acceso, legislación aplicable, período temporal, etc.) en lugar de los campos genéricos de CKAN, facilitando el cumplimiento del estándar desde el primer registro.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card feature-card h-100">
+                            <div class="card-body p-4">
+                                <h5 class="card-title" style="color: #003E7E;"><i class="fas fa-sync-alt me-2" style="color: #E8500A;"></i>Cosecha automática de catálogos</h5>
+                                <p class="card-text text-muted">Desde la sección de administración del portal es posible configurar fuentes externas (URLs de catálogos RDF, ficheros TTL, etc.) para que sean importadas periódicamente de forma automática. Los nuevos datasets aparecen publicados sin intervención manual.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ASSETS -->
+            <section id="assets" class="mt-5">
+                <h2>Recursos visuales requeridos</h2>
+                <p>El tema incluye imágenes estáticas que deben estar presentes en la carpeta pública del servidor CKAN. Todos estos archivos se copian automáticamente al instalar la extensión con <code>pip install -e .</code>, pero se listan aquí para referencia en caso de necesitar reemplazarlos:</p>
+
+                <table class="table table-sm table-bordered mt-3">
+                    <thead style="background-color: #003E7E; color: white;">
+                        <tr>
+                            <th>Archivo</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>proyecto_logo.png</code></td><td>Logo principal del proyecto en la página <code>/proyecto</code></td></tr>
+                        <tr><td><code>fisabio_gva_n_b.png</code></td><td>Logo combinado FISABIO-GVA (versión blanca/negra)</td></tr>
+                        <tr><td><code>socio_01.png</code> — <code>socio_04.png</code></td><td>Logos de las cuatro entidades socias (FISABIO, IIS La Fe, ISABIAL, FIHGUV)</td></tr>
+                        <tr><td><code>financiacion_01.png</code> — <code>financiacion_04.png</code></td><td>Logos de los organismos financiadores (Convocatoria 2024 digitalización)</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-info shadow-sm mt-3">
+                    <strong><i class="fas fa-info-circle me-2"></i>Nota:</strong> Estos archivos se sirven directamente desde la raíz del portal (p. ej., <code>https://su-portal.es/proyecto_logo.png</code>). Si necesita actualizar algún logo, basta con reemplazar el archivo en la carpeta <code>ckanext-fisabio/ckanext/fisabio_theme/public/</code> y reiniciar el servidor.
+                </div>
+            </section>
+
+            <!-- WORKER HARVESTER -->
+            <section class="mt-5">
+                <h2><i class="fas fa-terminal me-2"></i>Proceso de trabajo del Harvester (opcional pero recomendado)</h2>
+                <p>Para que la cosecha automática funcione en producción es necesario mantener un proceso <em>worker</em> activo en segundo plano. La forma recomendada es configurarlo como un servicio de <code>systemd</code>:</p>
+
+                <div class="step-header">
+                    <span class="step-badge">1</span>
+                    <strong>Crear el archivo de servicio</strong>
+                </div>
+                <div class="code-block">sudo nano /etc/systemd/system/ckan-harvest-worker.service</div>
+                <p>Con el siguiente contenido:</p>
+                <div class="code-block">[Unit]
+Description=CKAN Harvest Worker
+After=network.target
+
+[Service]
+User=www-data
+ExecStart=/usr/lib/ckan/default/bin/ckan -c /etc/ckan/default/ckan.ini harvester run-test
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target</div>
+
+                <div class="step-header mt-3">
+                    <span class="step-badge">2</span>
+                    <strong>Activar e iniciar el servicio</strong>
+                </div>
+                <div class="code-block">sudo systemctl daemon-reload
+sudo systemctl enable ckan-harvest-worker
+sudo systemctl start ckan-harvest-worker</div>
+            </section>
+
+            <!-- PIE -->
+            <div class="mt-5 text-center text-muted">
+                <hr>
+                <small>Guía de extensiones para el Portal CKAN FISABIO &mdash; GVA PharmaTrace Hub &mdash; CKAN 2.11 / Python 3.10</small>
+            </div>
+
+        </main>
+
+</body>
+</html>

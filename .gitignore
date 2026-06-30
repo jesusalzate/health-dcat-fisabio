@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Local CKAN/Docker state
+.env
+vendor/ckan-docker/
+*.log
+storage/
+postgres-data/
+solr-data/
+redis-data/
+
+# Temporary exports/backups
+backups/*
+!backups/.gitkeep

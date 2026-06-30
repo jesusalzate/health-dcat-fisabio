@@ -1,0 +1,53 @@
+{% set title = package.title or package.name %}
+{% set notes = h.markdown_extract(package.notes, extract_length=190) %}
+{% set access_text = 'Abierto' %}
+{% set access_class = 'open' %}
+{% set access_rights = package.access_rights | default('') | lower %}
+{% if package.private or 'restricted' in access_rights or 'non_public' in access_rights %}
+  {% set access_text = 'Bajo solicitud' %}
+  {% set access_class = 'restricted' %}
+{% endif %}
+
+{% block package_item %}
+<li class="{{ item_class or 'dataset-item' }} fisabio-dataset-product">
+  <div class="fisabio-dataset-product-main">
+    <div class="fisabio-dataset-product-top">
+      <span class="data-access-badge data-access-{{ access_class }}">{{ access_text }}</span>
+      {% if package.organization %}
+        <span class="data-org-badge">{{ package.organization.title or package.organization.name }}</span>
+      {% endif %}
+    </div>
+
+    <h2 class="dataset-heading">
+      <a href="{{ h.url_for('%s.read' % package.type, id=package.name) }}" title="{{ title }}">
+        {{ title|truncate(90) }}
+      </a>
+    </h2>
+
+    {% if notes %}
+      <p class="fisabio-dataset-summary">{{ notes|urlize }}</p>
+    {% else %}
+      <p class="fisabio-dataset-summary empty">Este conjunto de datos aún no tiene descripción.</p>
+    {% endif %}
+
+    <div class="fisabio-dataset-meta">
+      {% if package.metadata_modified %}
+        <span><i class="fa fa-clock-o"></i> Actualizado {{ h.render_datetime(package.metadata_modified, date_format='%d/%m/%Y') }}</span>
+      {% endif %}
+      {% if package.resources %}
+        <span><i class="fa fa-file-o"></i> {{ package.resources|length }} recurso(s)</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if package.resources and not hide_resources %}
+    <ul class="dataset-resources list-unstyled fisabio-resource-pills">
+      {% for resource in h.dict_list_reduce(package.resources, 'format') %}
+        <li>
+          <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}" class="badge badge-default" data-format="{{ resource.lower() }}">{{ resource }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>
+{% endblock %}

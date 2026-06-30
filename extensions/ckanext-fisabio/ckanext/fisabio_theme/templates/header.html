@@ -1,0 +1,54 @@
+{% ckan_extends %}
+
+{# El estilo de cabecera y navegación vive ahora en fanstatic/fisabio.css,
+   alineado al FISABIO Design System (índigo + coral, Figtree/Roboto). #}
+
+{% block header_logo %}
+<a class="navbar-brand fisabio-navbar-brand" href="/">
+  <img src="/assets/logos/fisabio-gva-lockup-indigo.svg" alt="FISABIO y Generalitat Valenciana - Portal de Datos Abiertos" />
+</a>
+<span class="fis-nav-divider"></span>
+{% endblock %}
+
+{% block header_site_navigation_tabs %}
+<li>
+  <a href="{{ h.url_for('dataset.search') }}">Catálogo de Datos</a>
+</li>
+<li>
+  <a href="{{ h.url_for('organization.index') }}">Organizaciones</a>
+</li>
+<li>
+  <a href="{{ h.url_for('fisabio_pages.espacio_datos') }}">Espacio de datos</a>
+</li>
+<li>
+  <a href="{{ h.url_for('fisabio_pages.contacto') }}">Contacto</a>
+</li>
+<li>
+  <a href="{{ h.url_for('home.about') }}">Acerca de</a>
+</li>
+{% endblock %}
+
+{% block header_site_search %}
+<form class="d-flex site-search" action="{{ h.url_for('dataset.search') }}" method="get">
+  <label class="d-none" for="field-sitewide-search">Buscar conjuntos de datos</label>
+  <input id="field-sitewide-search" class="form-control me-2" type="text" name="q"
+    placeholder="Buscar" aria-label="Buscar conjuntos de datos" />
+  <button class="btn" type="submit" aria-label="Enviar búsqueda"><i class="fa fa-search"></i></button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+  (function () {
+    var masthead = document.querySelector('.masthead');
+    if (!masthead) return;
+    function onScroll() {
+      masthead.style.boxShadow = window.scrollY > 8
+        ? '0 2px 18px rgba(29,15,68,0.10)'
+        : '';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+{% endblock %}

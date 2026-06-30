@@ -1,0 +1,69 @@
+{% ckan_extends %}
+
+{% block subtitle %}Catálogo de datos{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">Catálogo de datos</li>
+{% endblock %}
+
+{% block primary_content %}
+  {% set stats = h.get_site_statistics() %}
+  <section class="catalog-hero">
+    <div class="catalog-hero-copy">
+      <span class="fs-eyebrow">Catálogo de datos FISABIO</span>
+      <h1>Conjuntos de datos para investigación sanitaria y biomédica</h1>
+      <p>
+        Este catálogo permite localizar, describir y consultar recursos de datos vinculados a la actividad investigadora
+        de FISABIO. Cada conjunto de datos incorpora metadatos para entender su origen, formato, disponibilidad y
+        condiciones de uso.
+      </p>
+    </div>
+    <div class="catalog-hero-stats" aria-label="Resumen del catálogo">
+      <div>
+        <strong>{{ page.item_count }}</strong>
+        <span>resultados</span>
+      </div>
+      <div>
+        <strong>{{ stats.organization_count }}</strong>
+        <span>organizaciones</span>
+      </div>
+      <div>
+        <strong>{{ h.fisabio_get_resource_count() }}</strong>
+        <span>recursos</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-explainer-grid">
+    <article>
+      <span>Gobernanza</span>
+      <p>Los conjuntos de datos pueden ser abiertos o requerir solicitud de acceso según su sensibilidad y finalidad.</p>
+    </article>
+    <article>
+      <span>Interoperabilidad</span>
+      <p>Los metadatos ayudan a comparar formatos, recursos y organizaciones sin perder contexto investigador.</p>
+    </article>
+    <article>
+      <span>Reutilización</span>
+      <p>El catálogo facilita que equipos autorizados encuentren datos útiles para nuevos análisis y proyectos.</p>
+    </article>
+  </section>
+
+  {{ super() }}
+{% endblock %}
+
+{% block package_search_results_api_inner %}
+  <small>
+    Este catálogo también puede consultarse mediante la
+    <a href="{{ h.url_for('api.get_api', ver=3) }}">API de CKAN</a>.
+  </small>
+{% endblock %}
+
+{% block secondary_content %}
+  <section class="catalog-side-card">
+    <span class="fs-eyebrow">Filtros</span>
+    <h2>Afina la búsqueda</h2>
+    <p>Usa organizaciones, grupos, formatos y etiquetas para localizar conjuntos de datos concretos.</p>
+  </section>
+  {{ super() }}
+{% endblock %}

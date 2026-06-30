@@ -1,0 +1,302 @@
+{% ckan_extends %}
+
+{% block styles %}
+{{ super() }}
+<style>
+  /* ── Animaciones con IntersectionObserver ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-left {
+    opacity: 0;
+    transform: translateX(-28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-right {
+    opacity: 0;
+    transform: translateX(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible,
+  .fade-left.visible,
+  .fade-right.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .delay-1 { transition-delay: 0.10s; }
+  .delay-2 { transition-delay: 0.20s; }
+  .delay-3 { transition-delay: 0.30s; }
+  .delay-4 { transition-delay: 0.40s; }
+
+  /* ── Hero: anima al cargar (CSS animation, no observer) ── */
+  @keyframes heroSlideRight {
+    from { opacity: 0; transform: translateX(-32px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes heroSlideLeft {
+    from { opacity: 0; transform: translateX(32px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .hero-col-left  { animation: heroSlideRight 0.7s 0.1s ease both; }
+  .hero-col-right { animation: heroSlideLeft  0.7s 0.25s ease both; }
+</style>
+{% endblock %}
+
+{% block primary_content %}
+
+<!-- Hero / Banner -->
+<div class="fisabio-hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 hero-col-left">
+        <span class="hero-eyebrow">Ciencia que cuida la salud valenciana</span>
+        <h1 class="hero-title">Portal de Datos Abiertos</h1>
+        <p class="hero-subtitle">
+          {{ g.site_description or 'Accede a los datos de investigación sanitaria y biomédica de la Fundación FISABIO de la Comunidad Valenciana.' }}
+        </p>
+        <form class="hero-search-form" action="/dataset" method="get">
+          <div class="input-group hero-search">
+            <input type="text" name="q" class="form-control" placeholder="Buscar conjuntos de datos de investigación...">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-search">
+                <i class="fa fa-search"></i> Buscar
+              </button>
+            </span>
+          </div>
+        </form>
+        {% set popular_tags = h.fisabio_get_popular_tags(6) %}
+        {% if popular_tags %}
+        <div class="hero-tags">
+          <span class="hero-tags-label">Temas populares:</span>
+          {% for tag in popular_tags %}
+          <a href="/dataset?tags={{ tag.name }}" class="hero-tag">{{ tag.display_name or tag.name }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-md-5 hidden-sm hidden-xs hero-col-right">
+        {% set stats = h.get_site_statistics() %}
+        <div class="hero-stats-box">
+          <h4 class="hero-stats-title">Datos del Portal</h4>
+          <div class="hero-stat-row">
+            <span class="hero-stat-num">{{ stats.dataset_count }}</span>
+            <span class="hero-stat-label">Conjuntos de datos publicados</span>
+          </div>
+          <div class="hero-stat-row">
+            <span class="hero-stat-num">{{ stats.organization_count }}</span>
+            <span class="hero-stat-label">Organizaciones</span>
+          </div>
+          <div class="hero-stat-row">
+            <span class="hero-stat-num">{{ stats.group_count }}</span>
+            <span class="hero-stat-label">Grupos temáticos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Estadísticas del portal -->
+<div class="portal-stats">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-sm-3 col-xs-6 fade-up">
+        <div class="portal-stat-item">
+          <i class="fa fa-database portal-stat-icon"></i>
+          <div class="portal-stat-num">{{ h.get_site_statistics().dataset_count }}</div>
+          <div class="portal-stat-label">Conjuntos de datos</div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 fade-up delay-1">
+        <div class="portal-stat-item">
+          <i class="fa fa-file portal-stat-icon"></i>
+          <div class="portal-stat-num">{{ h.fisabio_get_resource_count() }}</div>
+          <div class="portal-stat-label">Recursos</div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 fade-up delay-2">
+        <div class="portal-stat-item">
+          <i class="fa fa-building portal-stat-icon"></i>
+          <div class="portal-stat-num">{{ h.get_site_statistics().organization_count }}</div>
+          <div class="portal-stat-label">Organizaciones</div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 fade-up delay-3">
+        <div class="portal-stat-item">
+          <i class="fa fa-tags portal-stat-icon"></i>
+          <div class="portal-stat-num">{{ h.fisabio_get_tag_count() }}</div>
+          <div class="portal-stat-label">Etiquetas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Flujo de uso -->
+<section class="home-data-flow">
+  <div class="container">
+    <div class="home-flow-header fade-up">
+      <span class="fs-eyebrow">Cómo usar el espacio de datos</span>
+      <h2>De la búsqueda al acceso responsable</h2>
+    </div>
+    <div class="home-flow-grid">
+      <article class="home-flow-card fade-up">
+        <span class="home-flow-step">01</span>
+        <h3>Descubre</h3>
+        <p>Busca conjuntos de datos por organización, formato, etiqueta o término de investigación.</p>
+      </article>
+      <article class="home-flow-card fade-up delay-1">
+        <span class="home-flow-step">02</span>
+        <h3>Evalúa</h3>
+        <p>Revisa metadatos, recursos disponibles, fecha de actualización y condiciones de acceso.</p>
+      </article>
+      <article class="home-flow-card fade-up delay-2">
+        <span class="home-flow-step">03</span>
+        <h3>Solicita</h3>
+        <p>Cuando el dato es restringido, envía una solicitud para que el equipo administrador la valore.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Contenido principal -->
+<div class="container main-content">
+  <div class="row">
+
+    <!-- Conjuntos de datos recientes -->
+    <div class="col-md-8">
+      <h2 class="section-title fade-up">
+        <i class="fa fa-clock-o"></i> Conjuntos de datos recientes
+      </h2>
+
+      {% set recent_packages = h.fisabio_get_recent_datasets(6) %}
+      {% if recent_packages %}
+      {% for pkg in recent_packages %}
+      <div class="dataset-card fade-up{% if loop.index0 > 0 %} delay-{{ [loop.index0, 4] | min }}{% endif %}">
+        <div class="dataset-card-header">
+          <h4 class="dataset-card-title">
+            <a href="/dataset/{{ pkg.name }}">{{ pkg.title or pkg.name }}</a>
+          </h4>
+          {% if pkg.organization %}
+          <span class="dataset-card-org">
+            <i class="fa fa-building-o"></i> {{ pkg.organization.title }}
+          </span>
+          {% endif %}
+        </div>
+        {% if pkg.notes %}
+        <p class="dataset-card-desc">{{ pkg.notes | striptags | truncate(150) }}</p>
+        {% endif %}
+        <div class="dataset-card-footer">
+          {% for tag in pkg.tags[:4] %}
+          <a href="/dataset?tags={{ tag.name }}" class="dataset-tag">{{ tag.display_name }}</a>
+          {% endfor %}
+          {% if pkg.resources %}
+          <span class="dataset-card-resources">
+            <i class="fa fa-file-o"></i> {{ pkg.resources | length }} recurso(s)
+          </span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="empty-state fade-up">
+        <i class="fa fa-database fa-3x"></i>
+        <p>Aún no hay conjuntos de datos publicados.</p>
+        {% if h.check_access('package_create') %}
+        <a href="/dataset/new" class="btn btn-primary">Crear el primer conjunto de datos</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="text-center fade-up" style="margin-top:20px;">
+        <a href="/dataset" class="btn btn-outline-primary">
+          Ver todos los conjuntos de datos <i class="fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+
+      <!-- Organizaciones -->
+      <div class="sidebar-module fade-right">
+        <h3 class="sidebar-module-title">
+          <i class="fa fa-building"></i> Organizaciones
+        </h3>
+        {% set orgs = h.fisabio_get_organizations(5) %}
+        {% if orgs %}
+        <ul class="sidebar-list">
+          {% for org in orgs %}
+          <li>
+            <a href="/organization/{{ org.name }}">
+              {{ org.title or org.name }}
+              <span class="sidebar-count">{{ org.package_count or 0 }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <a href="/organization" class="sidebar-more">Ver todas <i class="fa fa-arrow-right"></i></a>
+        {% else %}
+        <p class="sidebar-empty">No hay organizaciones aún.</p>
+        {% endif %}
+      </div>
+
+      <!-- Formatos disponibles -->
+      <div class="sidebar-module fade-right delay-1">
+        <h3 class="sidebar-module-title">
+          <i class="fa fa-file-text-o"></i> Formatos disponibles
+        </h3>
+        {% set formats = h.fisabio_get_resource_formats(10) %}
+        {% if formats %}
+        <div class="format-tags">
+          {% for fmt in formats %}
+          <a href="/dataset?res_format={{ fmt }}" class="format-badge format-{{ fmt | lower | replace(' ', '-') }}">{{ fmt }}</a>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="sidebar-empty">No hay recursos publicados aún.</p>
+        {% endif %}
+      </div>
+
+      <!-- Info portal -->
+      <div class="sidebar-module sidebar-info fade-right delay-2">
+        <h3 class="sidebar-module-title">
+          <i class="fa fa-info-circle"></i> Sobre este portal
+        </h3>
+        <div style="padding:12px 15px;">
+          <p style="font-size:0.85rem;color:#555;line-height:1.6;margin:0 0 10px;">
+            Portal de datos abiertos de {{ g.site_title }}, impulsado por la
+            <a href="https://fisabio.san.gva.es" target="_blank">Fundación para el Fomento
+              de la Investigación Sanitaria y Biomédica</a> de la Comunidad Valenciana.
+          </p>
+          <a href="/about" class="btn btn-sm btn-default">Más información</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+  (function () {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>
+{% endblock %}

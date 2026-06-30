@@ -1,0 +1,3 @@
+recursive-include ckanext/fisabio_theme/fanstatic *
+recursive-include ckanext/fisabio_theme/public *
+recursive-include ckanext/fisabio_theme/templates *

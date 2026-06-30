@@ -1,0 +1,19 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Status" subtitle="Success, warning, danger (GVA red) & info, each with a soft field" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;padding:18px;background:var(--surface-card);font-family:var(--font-body)}
+  .row{display:flex;gap:12px}
+  .item{flex:1}
+  .bar{height:46px;border-radius:var(--radius-md) var(--radius-md) 0 0;display:flex;align-items:center;padding:0 12px;color:#fff;font-family:var(--font-display);font-weight:600;font-size:13px}
+  .soft{height:30px;border-radius:0 0 var(--radius-md) var(--radius-md);display:flex;align-items:center;padding:0 12px}
+  .soft small{font-family:var(--font-mono);font-size:10px;color:var(--fs-ink)}
+  .bar small{font-family:var(--font-mono);font-weight:400;opacity:.85;margin-left:auto;font-size:10px}
+</style></head>
+<body>
+  <div class="row">
+    <div class="item"><div class="bar" style="background:var(--fs-success)">Success<small>#1f8a5b</small></div><div class="soft" style="background:var(--fs-success-soft)"><small>soft #e2f3eb</small></div></div>
+    <div class="item"><div class="bar" style="background:var(--fs-warning)">Warning<small>#c9870a</small></div><div class="soft" style="background:var(--fs-warning-soft)"><small>soft #faf0db</small></div></div>
+    <div class="item"><div class="bar" style="background:var(--fs-danger)">Danger<small>#c8102e</small></div><div class="soft" style="background:var(--fs-danger-soft)"><small>soft #fbe6e9</small></div></div>
+    <div class="item"><div class="bar" style="background:var(--fs-info)">Info<small>#46318f</small></div><div class="soft" style="background:var(--fs-info-soft)"><small>soft #eceaf6</small></div></div>
+  </div>
+</body></html>

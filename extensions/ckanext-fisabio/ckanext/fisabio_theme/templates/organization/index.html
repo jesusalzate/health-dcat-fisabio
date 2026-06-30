@@ -1,0 +1,43 @@
+{% ckan_extends %}
+
+{% block subtitle %}Organizaciones{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">Organizaciones</li>
+{% endblock %}
+
+{% block primary_content_inner %}
+  <section class="org-hero">
+    <span class="fs-eyebrow">Organizaciones</span>
+    <h1>Entidades que estructuran el espacio de datos</h1>
+    <p>
+      Las organizaciones agrupan conjuntos de datos, recursos y metadatos por entidad responsable, unidad investigadora
+      o ámbito de gestión, facilitando la trazabilidad y la navegación dentro del catálogo.
+    </p>
+  </section>
+
+  <section class="org-explainer-grid">
+    <article>
+      <span>Responsabilidad</span>
+      <p>Identifica qué entidad mantiene o publica cada conjunto de datos.</p>
+    </article>
+    <article>
+      <span>Contexto</span>
+      <p>Permite interpretar los recursos según su origen institucional o investigador.</p>
+    </article>
+    <article>
+      <span>Navegación</span>
+      <p>Ayuda a filtrar el catálogo por áreas, unidades o entidades colaboradoras.</p>
+    </article>
+  </section>
+
+  {{ super() }}
+{% endblock %}
+
+{% block secondary_content %}
+  <section class="catalog-side-card">
+    <span class="fs-eyebrow">Organizaciones</span>
+    <h2>Explora por entidad</h2>
+    <p>Utiliza esta sección para localizar conjuntos de datos según la organización responsable.</p>
+  </section>
+{% endblock %}

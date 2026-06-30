@@ -1,0 +1,29 @@
+{% set url = h.url_for(organization.type ~ '.read', id=organization.name) %}
+{% block item %}
+<li class="media-item fisabio-org-card">
+  {% block item_inner %}
+    {% block image %}
+      <img src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ organization.name }}" class="img-fluid media-image">
+    {% endblock %}
+    {% block title %}
+      <h2 class="media-heading">{{ organization.display_name }}</h2>
+    {% endblock %}
+    {% block description %}
+      {% if organization.description %}
+        <p class="media-description">{{ h.markdown_extract(organization.description, extract_length=90) }}</p>
+      {% endif %}
+    {% endblock %}
+    {% block datasets %}
+      <span class="count">{{ organization.package_count or 0 }} conjunto(s) de datos</span>
+    {% endblock %}
+    {% block link %}
+      <a href="{{ url }}" title="Ver {{ organization.display_name }}" class="media-view">
+        <span>Ver {{ organization.display_name }}</span>
+      </a>
+    {% endblock %}
+  {% endblock %}
+</li>
+{% endblock %}
+{% if position is divisibleby 3 %}
+  <li class="clearfix js-hide"></li>
+{% endif %}

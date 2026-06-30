@@ -1,0 +1,74 @@
+{% extends "page.html" %}
+
+{% block subtitle %}Contacto{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">Contacto</li>
+{% endblock %}
+
+{% block content %}
+<div class="container fisabio-contact-page">
+  <section class="fisabio-contact-hero fade-up">
+    <div>
+      <span class="fs-eyebrow">Contacto</span>
+      <h1>Canales para consultas sobre el portal de datos</h1>
+      <p>
+        Usa esta página para orientar las consultas relacionadas con el catálogo, el acceso a datos y la información
+        institucional de FISABIO.
+      </p>
+    </div>
+  </section>
+
+  <section class="fisabio-contact-grid">
+    <article class="fisabio-contact-card">
+      <span class="fisabio-feature-kicker">01</span>
+      <h2>Acceso a conjuntos de datos</h2>
+      <p>Para pedir acceso a un conjunto de datos restringido, utiliza el formulario específico de solicitud.</p>
+      <a class="btn btn-primary" href="/solicitar-acceso">Solicitar acceso a datos</a>
+    </article>
+    <article class="fisabio-contact-card">
+      <span class="fisabio-feature-kicker">02</span>
+      <h2>Consultas sobre el catálogo</h2>
+      <p>Para dudas sobre búsqueda, metadatos, organizaciones o recursos publicados, consulta primero el catálogo.</p>
+      <a class="btn btn-default" href="/dataset">Ir al catálogo</a>
+    </article>
+    <article class="fisabio-contact-card">
+      <span class="fisabio-feature-kicker">03</span>
+      <h2>Información institucional</h2>
+      <p>Para información corporativa, transparencia, avisos legales o privacidad, accede a la web oficial de FISABIO.</p>
+      <a class="btn btn-default" href="https://fisabio.san.gva.es" target="_blank" rel="noopener">Web corporativa</a>
+    </article>
+  </section>
+
+  <section class="fisabio-contact-band">
+    <div>
+      <span class="fs-eyebrow">Sede</span>
+      <h2>FISABIO</h2>
+    </div>
+    <p>
+      Avda. de Catalunya, 21 · 46020 Valencia<br>
+      Tel. +34 961 925 700
+    </p>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+  (function () {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-up').forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>
+{% endblock %}

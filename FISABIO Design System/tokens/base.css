@@ -1,0 +1,57 @@
+/* FISABIO — base element styling & a few brand utilities.
+   Lightweight reset + sensible defaults bound to the tokens. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-4xl); font-weight: var(--weight-bold); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+strong { font-weight: var(--weight-bold); color: var(--text-strong); }
+small { font-size: var(--text-sm); }
+code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
+
+::selection { background: var(--fs-coral-200); color: var(--fs-ink); }
+
+:focus-visible { outline: none; box-shadow: var(--ring-focus); border-radius: var(--radius-xs); }
+
+/* ---- Brand utilities ---- */
+.fs-eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fs-prose { max-width: var(--prose-max); line-height: var(--leading-relaxed); }
+.fs-prose > * + * { margin-top: 1em; }
+
+/* Circular brand-motif divider dot row helper */
+.fs-dotrow { display: inline-flex; gap: var(--space-2); align-items: center; }
+.fs-dotrow > span { width: 8px; height: 8px; border-radius: var(--radius-circle); background: var(--accent); }

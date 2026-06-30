@@ -1,0 +1,50 @@
+{% extends "page.html" %}
+
+{% block subtitle %}Acerca de{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">Acerca de</li>
+{% endblock %}
+
+{% block primary %}
+<article class="about-fisabio-page">
+  <section class="about-fisabio-hero">
+    <span class="fs-eyebrow">Acerca de</span>
+    <h1>Un portal para descubrir y reutilizar datos de investigación sanitaria</h1>
+    <p>
+      El Portal de Datos Abiertos de FISABIO centraliza la descripción, búsqueda y acceso a conjuntos de datos
+      vinculados a investigación sanitaria y biomédica. Su objetivo es facilitar el descubrimiento de recursos,
+      mejorar la trazabilidad y apoyar un uso responsable de los datos.
+    </p>
+  </section>
+
+  <section class="about-fisabio-grid">
+    <article>
+      <h2>Qué ofrece</h2>
+      <p>Un catálogo con metadatos, recursos, formatos, organizaciones y filtros para localizar información relevante.</p>
+    </article>
+    <article>
+      <h2>Para quién es</h2>
+      <p>Equipos investigadores, personal técnico, gestores de datos y entidades colaboradoras que necesitan localizar o solicitar datos.</p>
+    </article>
+    <article>
+      <h2>Cómo se accede</h2>
+      <p>Los datos abiertos pueden consultarse desde el catálogo; los restringidos requieren una solicitud de acceso y revisión previa.</p>
+    </article>
+  </section>
+
+  <section class="about-ckan-band">
+    <div>
+      <span class="fs-eyebrow">Tecnología</span>
+      <h2>Construido sobre CKAN</h2>
+    </div>
+    <p>
+      Este portal utiliza CKAN, una plataforma de código abierto especializada en catálogos de datos. CKAN permite
+      gestionar metadatos, organizaciones, recursos descargables, formatos, búsquedas, filtros y acceso mediante API,
+      manteniendo una base técnica sólida para publicar y gobernar datos de investigación.
+    </p>
+  </section>
+</article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
