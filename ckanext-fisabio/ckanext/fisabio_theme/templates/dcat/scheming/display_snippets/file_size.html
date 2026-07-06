@@ -1,0 +1,6 @@
+{% set value = data[field.field_name] %}
+{% if value is not none and value != '' %}
+  {{ h.localised_filesize(value) }}
+{% else %}
+  <span class="text-muted">Desconocido</span>
+{% endif %}
